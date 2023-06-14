@@ -1,0 +1,16 @@
+/* YourStyles.module.css */
+.backButton {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.15s ease-in-out;
+  }
+  
+  .backButton:focus {
+    transform: scale(1.1);
+  }
+  

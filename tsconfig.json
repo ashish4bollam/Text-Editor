@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": "./",
+    "paths": {
+      "<memeify>/*": ["./*"], 
+      "@/*": ["src/*"],
+      "next/link": ["node_modules/next/link"]
+      
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/compo/Layout/Lol.tsx", "src/pages/Loltsx", "src/compo/Navbar/RightContent/EdtiDocs.js", "src/compo/Layout/Editl.js"],
+  "exclude": ["node_modules"]
+}
