@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "react-scripts build",
+  
     "start": "next start",
     "lint": "next lint",
     "predeploy":"npm run build",
