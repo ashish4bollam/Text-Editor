@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ReactNode } from 'react';
 import {
     addDoc,
     collection,
@@ -25,7 +25,10 @@ import './YourStyles.module.css';
 
 const Docsl:React.FC = () => {
     const username=auth.currentUser?.email;
-    const [docsData,setDocsData]=useState([])
+    const [docsData, setDocsData] = useState<{
+      [x: string]: ReactNode; id: string 
+}[]>([]);
+
     
     const [isID,setId]=useState("");
     
@@ -35,17 +38,18 @@ const Docsl:React.FC = () => {
     
 
     useEffect(() => {
-    
       const unsubscribe = onSnapshot(databasecollection, (response) => {
-        setDocsData(response.docs.map((doc) => {
-          return {...doc.data(), id: doc.id};
-        }));
+        const updatedData = response.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id };
+        });
+        setDocsData(updatedData);
       });
-      return () => unsubscribe();
+    
+      return unsubscribe;
     }, []);
 
   
-    const handleDelete = async (id) => {
+    const handleDelete = async (id: string) => {
        
         const reference = doc(database, 'docs-data'+username, id);
 
@@ -66,11 +70,7 @@ const Docsl:React.FC = () => {
                     return (
                       <Grid
     
-      xs={12}
-      sm={6}
-      md={4}
-      lg={3}
-      xl={2}
+     
     >
       <Box
         padding={2}
@@ -115,23 +115,17 @@ const Docsl:React.FC = () => {
 
             {isID.length>0 && (<><IconButton
           colorScheme="blue"
-          
+
           icon={<ArrowBackIcon />}
           style={{
-          
             borderRadius: '5px',
             padding: '4px 8px',
             fontSize: '14px',
             fontWeight: 'bold',
             marginLeft: '300px',
-            marginTop:'10px',
-            
-            '&:hover': {
-              backgroundColor: '#e0e0e0',
-            },
+            marginTop: '10px',
           }}
-          onClick={() => (setId(''))}
-          />
+          onClick={() => (setId(''))} aria-label={''}          />
             <Lol userID={isID} ></Lol></>)}
             </>
 

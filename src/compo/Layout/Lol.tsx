@@ -11,18 +11,17 @@ import { auth, database } from '<memeify>/src/firebase/ClientApp';
 import { collection, doc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import Quill from 'quill';
-import FontsModule from './FontsModule';
-import SizeStyle from './SizeStyle';
+
 
 type LolProp = {
-  userID ? :string | null;
+  userID  :string ;
 
 };
 
 const ReactQuill = dynamic(import('react-quill'), { ssr: false })
 const Lol:React.FC<LolProp> = ({userID})=> {
 
-  const isMounted = useRef()
+  const isMounted = useRef();
   const username=auth.currentUser?.email;
  
  
@@ -72,23 +71,31 @@ const toolbarOptions = [
         return () => clearTimeout(updateDocsData)
     }, [editorValue])
 
+
     const getData = () => {
-      const document = doc(database, 'docs-data'+username, userID);
+      const document = doc(database, 'docs-data' + username, userID);
       onSnapshot(document, (docs) => {
-          setDocumentTitle(docs.data().title);
-          setEditorValue(docs.data().body);
-      })
-  }
+        if (docs.exists()) {
+          const data = docs.data();
+          setDocumentTitle(data?.title || '');
+          setEditorValue(data?.body || '');
+        }
+      });
+    };
+
+ 
 
   useEffect(() => {
-    if (isMounted.current) {
-        return
+    let isMounted = true;
+
+    if (isMounted) {
+        getData();
     }
 
-    isMounted.current = true;
-    getData()
-}, [])
-
+    return () => {
+        isMounted = false;
+    };
+}, []);
 
   console.log(userID);
   return (
